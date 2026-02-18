@@ -29,11 +29,7 @@ export default class Controller {
         const buf = this.createRequestMsg(cmd);
 
         this.socket.on("message", (msg, rinfo) => {
-            // console.log(`Received response: ${msg.length} ${this.readHeaderOpts(msg)}`);
             console.log("Received", rinfo.port, this.readHeaderOpts(msg));
-
-            // console.log(`Received response: ${msg.length}`);
-            // client.close();
         });
 
 
@@ -104,13 +100,7 @@ export default class Controller {
             size: raw.readUint16LE(0),
             tagged: !!((raw.readUint8(3) >> 5) & 0b1),
             source: raw.readUint32LE(4),
-            target: (() => {
-                return "UNKNOWN"
-                // const bytes = new Uint8Array(data.buffer, 8, 6);
-                // const serial: String[] = [];
-                // bytes.map(b => serial.push(b.toString(16).padStart(2, "0")));
-                // return serial.join("");
-            })(),
+            target: "UNKNOWN",
             res_required: !!(raw.readUint8(22) & 0b1),
             ack_required: !!((raw.readUint8(22) >> 1) & 0b1),
             sequence: raw.readUint8(23),
